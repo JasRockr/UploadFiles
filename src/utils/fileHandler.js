@@ -7,6 +7,7 @@ export const processFile = async file => {
       // Process file (CSV)
       const csvFilePath = file.path; // Path file CSV
       const dataRows = [];
+      console.log(csvFilePath);
 
       fs.createReadStream(csvFilePath, { encoding: 'utf-8' })
         .pipe(csvParser())

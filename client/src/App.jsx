@@ -5,7 +5,22 @@ function App() {
   const [file, setFile] = useState(null);
 
   const handleFileChange = event => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+
+    // Verificar la extensión del archivo (por ejemplo, asegurarse de que sea .csv)
+    const allowedExtensions = ['.csv'];
+    const fileExtension = selectedFile
+      ? selectedFile.name.split('.').pop()
+      : '';
+
+    if (!allowedExtensions.includes(`.${fileExtension}`)) {
+      alert(
+        'Formato de archivo no admitido. Por favor, seleccione un archivo CSV.',
+      );
+      setFile(null); // Establece el archivo en null para deshabilitar el botón y limpiar la selección
+    } else {
+      setFile(selectedFile);
+    }
   };
 
   const handleUpload = async () => {
@@ -21,11 +36,15 @@ function App() {
 
         if (response.ok) {
           console.log('Archivo cargado y procesado exitosamente.');
+          setFile(null); // Limpia la selección después de cargar con éxito
         } else {
           console.log('Error al cargar el archivo.');
+          setFile(null); // Limpia la selección en caso de error
         }
       } catch (error) {
         console.error(error);
+        alert('Error al cargar el archivo.');
+        setFile(null); // Limpia la selección en caso de error
       }
     }
   };
@@ -34,7 +53,7 @@ function App() {
     <div className="App">
       <h1>Subir Archivo CSV</h1>
       <input type="file" accept=".csv" onChange={handleFileChange} />
-      <button onClick={handleUpload}>
+      <button onClick={handleUpload} disabled={!file}>
         <span> Cargar </span>
       </button>
     </div>
