@@ -14,7 +14,7 @@ export const getAllAsesores = async (req, res) => {
   }
 };
 
-// * Upload
+// * Upload CVS File
 export const uploadAsesores = async (req, res) => {
   try {
     const file = req.file;
@@ -23,27 +23,31 @@ export const uploadAsesores = async (req, res) => {
       return;
     }
 
-    // Verificar la extensión del archivo (por ejemplo, asegurarse de que sea .csv)
+    // Verify file extension
     const allowedExtensions = ['.csv'];
-    const fileExtension = path.extname(file.originalname).toLowerCase(); // Importa 'path' al principio del archivo
+    const fileExtension = path.extname(file.originalname).toLowerCase();
+    // console.log(fileExtension);
 
-    console.log(fileExtension);
+    // Validate extension matches
     if (!allowedExtensions.includes(fileExtension)) {
       res.status(400).json({ message: 'Formato de archivo no admitido.' });
       console.log('Formato de archivo no admitido.');
       return;
     }
 
-    // Procesar el archivo (CSV) y esperar a que se complete
+    // Process file and wait for the response
     await processFile(file);
-
+    // console.log(req.file);
     console.log('Archivo cargado y procesado correctamente.');
     res
       .status(200)
       .json({ message: 'Archivo cargado y procesado correctamente.' });
 
-    // Si deseas almacenar datos en la base de datos, hazlo aquí después de procesar el archivo.
     // ! Store data in database
+    // --- status: 201
+
+    // ! Delete file after successful
+    // ---
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al procesar el archivo.' });

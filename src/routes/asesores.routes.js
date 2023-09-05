@@ -3,15 +3,14 @@ import {
   getAllAsesores,
   uploadAsesores,
 } from '../controllers/asesores.controller.js';
-import multer from 'multer';
+import upload from '../utils/fileUpload.js';
 
 const router = Router();
-// * Upload File
 
-// Set Multer for handling file upload
-const upload = multer({ dest: 'uploads/' });
+// Middleware upload file
+const uploadMiddleware = upload.single('file'); // 'file' -> field name in form
 
 router.get('/api/asesores', getAllAsesores);
-router.post('/api/upload', upload.single('file'), uploadAsesores);
+router.post('/api/upload', uploadMiddleware, uploadAsesores);
 
 export default router;
