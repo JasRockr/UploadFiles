@@ -10,8 +10,12 @@ const app = express();
 // Set
 app.set('port', config.port);
 
+const corsOptions = {
+  origin: '*', // Permitir solicitudes desde cualquier origen (esto puede ser personalizado)
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP permitidos
+};
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

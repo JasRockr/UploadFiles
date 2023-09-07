@@ -5,14 +5,15 @@ import fs from 'fs';
 const uploadsFolder = 'uploads';
 
 // Set Multer for file upload
-const storage = multer.diskStorage({
+const storeFile = multer.diskStorage({
   destination: (req, file, cb) => {
+    const csvFolder = `${uploadsFolder}/csv`;
     // Create folder if it doesn't exist
-    if (!fs.existsSync(uploadsFolder)) {
-      fs.mkdirSync(uploadsFolder);
+    if (!fs.existsSync(csvFolder)) {
+      fs.mkdirSync(csvFolder, { recursive: true });
     }
     // Folder to store uploaded
-    cb(null, `${uploadsFolder}/`);
+    cb(null, csvFolder);
   },
   filename: (req, file, cb) => {
     const fileExtension = file.originalname.split('.').pop();
@@ -24,6 +25,6 @@ const storage = multer.diskStorage({
 });
 
 // Upload file
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storeFile });
 
 export default upload;
