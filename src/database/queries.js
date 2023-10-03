@@ -1,5 +1,7 @@
+import config from '../config';
+
 // Set table name
-const asesores = 'asesores_api';
+const asesores = config.tblAsesores;
 
 // Set queries related to the table
 export const queriesAsesores = {

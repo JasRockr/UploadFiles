@@ -112,7 +112,7 @@ export const uploadAsesores = async (req, res) => {
       // Close connection to database
       pool.close();
       // Save data as file JSON
-      // saveFileAsJson(fileName, dataRows);
+      saveFileAsJson(fileName, dataRows);
       // Remove file after successful
       removeFile(filePath);
     }
