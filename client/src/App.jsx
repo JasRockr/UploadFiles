@@ -10,14 +10,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <div className="flex flex-col">
-      {/* <FileUploader /> */}
-      <Router>
+      <FileUploader />
+      {/* <Router>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/page" element={<Page />} />
         </Routes>
-      </Router>
+      </Router> */}
     </div>
   );
 }
