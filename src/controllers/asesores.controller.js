@@ -1,7 +1,5 @@
 import { getConnection, sql, queriesAsesores } from '../database';
-import { processCsvFile } from '../utils/csvHandler.js';
 import {
-  isValidFileCsv,
   saveFileAsJson,
   removeFile,
 } from '../utils/commonUtils.js';
@@ -29,26 +27,14 @@ export const getAllAsesores = async (req, res) => {
  * @returns
  */
 export const uploadAsesores = async (req, res) => {
+
+  const dataRows = req.dataRows;
+
   let pool;
   const file = req.file; // File received from client
   const fileName = file.filename; // File name
   const filePath = file.path; // File path
 
-  // Verify that the file exists
-  if (!file) {
-    res.status(400).json({ message: 'No se proporcionó ningún archivo.' });
-    return;
-  }
-
-  // Verify file extension
-  if (!isValidFileCsv(file)) {
-    res.status(400).json({ message: 'Formato de archivo no admitido.' });
-    console.log('Formato de archivo no admitido.');
-    return;
-  }
-
-  // Process file and wait for the response
-  const dataRows = await processCsvFile(file);
 
   try {
     // Get pool connection to database
@@ -72,6 +58,9 @@ export const uploadAsesores = async (req, res) => {
           .input('nombre_asesor', sql.VarChar, row.nombre_asesor)
           .input('equipo_entidad', sql.VarChar, row.equipo_entidad)
           .input('compania', sql.VarChar, row.compania)
+          // .input('correo_contacto', sql.VarChar, row.correo_contacto)
+          // .input('celular_contacto', sql.VarChar, row.celular_contacto)
+          // .input('rol_asesor', sql.VarChar, row.rol_asesor)
           .input('observaciones', sql.VarChar, row.observaciones)
           .input('fecha_novedad', sql.DateTime, new Date(row.fecha_novedad))
           .input('usuario', sql.VarChar, row.usuario)

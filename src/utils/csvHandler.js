@@ -50,7 +50,6 @@ export const processCsvFile = async file => {
     }
 
     const data = objectList;
-
     // Resolve the promise after processing the file
     return data;
   } catch (error) {

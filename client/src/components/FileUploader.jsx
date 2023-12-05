@@ -41,7 +41,7 @@ function FileUploader() {
           console.log('Archivo cargado y procesado exitosamente.');
           setFile(null); // Set state after upload successful
         } else {
-          console.log('Error al cargar el archivo.');
+          console.log(response.status, 'Error al cargar el archivo.');
           setFile(null); // Set state after upload failed
         }
       } catch (error) {
